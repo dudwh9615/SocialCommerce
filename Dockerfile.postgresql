@@ -1,7 +1,0 @@
-FROM postgres:16
-
-# 환경 변수 설정
-ENV POSTGRES_DB=mydatabase
-ENV POSTGRES_USER=myuser
-ENV POSTGRES_PASSWORD=mypassword
-ENV POSTGRES_PORT=5432

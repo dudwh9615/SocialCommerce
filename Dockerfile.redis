@@ -1,5 +1,0 @@
-FROM redis:latest
-
-# 환경 변수 설정
-ENV REDIS_PORT=6379
-ENV REDIS_DATA_DIR=/data
