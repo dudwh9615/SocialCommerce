@@ -6,6 +6,7 @@ import Project.SocialCommerce.dto.UserRequestDto;
 import Project.SocialCommerce.dto.UserResponseDto;
 import Project.SocialCommerce.model.User;
 import Project.SocialCommerce.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class UserController {
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<RegisterRequestDto> register(@RequestBody RegisterRequestDto requestDto) {
+    public ResponseEntity<RegisterRequestDto> register(@RequestBody @Valid RegisterRequestDto requestDto) {
         //UserService 호출해서 회원가입
         userService.register(requestDto);
         return ResponseEntity.ok(requestDto);
