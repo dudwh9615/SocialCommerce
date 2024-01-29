@@ -57,6 +57,56 @@ public class UserService {
         userRepository.save(targetUser.get());
     }
 
+    public void unFollowing(String loginUserEmail, FollowRequestDto followRequestDto) {
+        Optional<User> loggedInUserOpt = userRepository.findByEmail(loginUserEmail);
+        Optional<User> targetUserOpt = userRepository.findByEmail(followRequestDto.getTargetUserEmail());
+        User loggedInUser;
+        User targetUser;
+
+        if (loggedInUserOpt.isEmpty() || targetUserOpt.isEmpty()) {
+            throw new IllegalStateException("탈퇴한 회원입니다.");
+        }
+        loggedInUser = loggedInUserOpt.get();
+        targetUser = targetUserOpt.get();
+
+        // 팔로우 관계 확인
+        if (loggedInUser.getFollowing().contains(targetUser)) {
+            // 언팔로우 수행
+            loggedInUser.getFollowing().remove(targetUser);
+            targetUser.getFollowers().remove(loggedInUser);
+        }
+
+        userRepository.save(loggedInUser);
+        userRepository.save(targetUser);
+    }
+
+    public void modifyUserInfo(ModifyRequestDto modifyRequestDto, String email) {
+        Optional<User> originalUserOptional = userRepository.findByEmail(email);
+        if (originalUserOptional.isEmpty()) {
+            throw new IllegalArgumentException("계정 정보가 없습니다");
+        }
+        User originalUser = originalUserOptional.get();
+
+        // 바뀐 내용이 있다면 originalUser 갱신
+        if (modifyRequestDto.getName() != null) {
+            originalUser.setName(modifyRequestDto.getName());
+        }
+        if (modifyRequestDto.getProfile() != null) {
+            originalUser.setProfile(modifyRequestDto.getProfile());
+        }
+        if (modifyRequestDto.getGreetings() != null) {
+            originalUser.setGreetings(modifyRequestDto.getGreetings());
+        }
+        // 비밀번호의 경우 변경이 되었다면 쿠키의 토큰 만료하여 로그아웃처리
+        if (modifyRequestDto.getPwd() != null) {
+            if (!originalUser.getPwd().equals(passwordEncoder.encode(modifyRequestDto.getPwd()))) {
+                originalUser.setProfile(passwordEncoder.encode(modifyRequestDto.getPwd()));
+            }
+        }
+
+        userRepository.save(originalUser);
+    }
+
 
     //새로 추가
 //    public void login(LoginRequestDto requestDto, HttpServletResponse res) {

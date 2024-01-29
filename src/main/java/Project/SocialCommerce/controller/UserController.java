@@ -30,10 +30,16 @@ public class UserController {
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<RegisterRequestDto> register(@RequestBody @Valid RegisterRequestDto requestDto) {
+    public ResponseEntity<String> register(@RequestBody @Valid RegisterRequestDto requestDto) {
         //UserService 호출해서 회원가입
         userService.register(requestDto);
-        return ResponseEntity.ok(requestDto);
+        return ResponseEntity.ok("회원가입 완료");
+    }
+
+    @PutMapping("/users")
+    public ResponseEntity<String> modifyUserInfo(@RequestBody @Valid ModifyRequestDto modifyRequestDto, Principal principal) {
+        userService.modifyUserInfo(modifyRequestDto, principal.getName());
+        return ResponseEntity.ok("회원정보 수정 완료");
     }
 
     @PostMapping("/following")
@@ -41,6 +47,13 @@ public class UserController {
         String loginUserEmail = principal.getName();
         userService.following(loginUserEmail, followRequestDto);
         return ResponseEntity.ok("팔로우 성공");
+    }
+
+    @PostMapping("/unfollowing")
+    public ResponseEntity<String> unFollowUser(@RequestBody FollowRequestDto followRequestDto, Principal principal) {
+        String loginUserEmail = principal.getName();
+        userService.unFollowing(loginUserEmail, followRequestDto);
+        return ResponseEntity.ok("팔로우 취소");
     }
 
 
