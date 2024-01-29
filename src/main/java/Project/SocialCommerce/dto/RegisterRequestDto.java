@@ -1,5 +1,6 @@
 package Project.SocialCommerce.dto;
 
+import Project.SocialCommerce.model.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
@@ -26,5 +27,20 @@ public class RegisterRequestDto {
 
     @NotBlank
     private String greetings;
+
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
+    }
+
+    public User toEntity() {
+        User user = new User();
+        user.setEmail(email);
+        user.setPwd(pwd);
+        user.setName(name);
+        user.setProfile(profile);
+        user.setGreetings(greetings);
+
+        return user;
+    }
 
 }
