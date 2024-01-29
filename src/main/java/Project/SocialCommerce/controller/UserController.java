@@ -1,9 +1,6 @@
 package Project.SocialCommerce.controller;
 
-import Project.SocialCommerce.dto.LoginRequestDto;
-import Project.SocialCommerce.dto.RegisterRequestDto;
-import Project.SocialCommerce.dto.UserRequestDto;
-import Project.SocialCommerce.dto.UserResponseDto;
+import Project.SocialCommerce.dto.*;
 import Project.SocialCommerce.model.User;
 import Project.SocialCommerce.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 
@@ -37,6 +35,14 @@ public class UserController {
         userService.register(requestDto);
         return ResponseEntity.ok(requestDto);
     }
+
+    @PostMapping("/following")
+    public ResponseEntity<String> followUser(@RequestBody FollowRequestDto followRequestDto, Principal principal) {
+        String loginUserEmail = principal.getName();
+        userService.following(loginUserEmail, followRequestDto);
+        return ResponseEntity.ok("팔로우 성공");
+    }
+
 
 //    @PostMapping("/login")
 //    public void login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse res) {
