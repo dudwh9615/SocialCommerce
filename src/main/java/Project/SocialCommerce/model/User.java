@@ -1,7 +1,6 @@
 package Project.SocialCommerce.model;
 
-import Project.SocialCommerce.dto.RegisterRequestDto;
-import Project.SocialCommerce.dto.UserRequestDto;
+
 import jakarta.persistence.*;
 import lombok.*;
 

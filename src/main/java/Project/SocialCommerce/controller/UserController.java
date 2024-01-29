@@ -6,6 +6,7 @@ import Project.SocialCommerce.dto.UserRequestDto;
 import Project.SocialCommerce.dto.UserResponseDto;
 import Project.SocialCommerce.model.User;
 import Project.SocialCommerce.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,7 +39,7 @@ public class UserController {
     }
 
 //    @PostMapping("/login")
-//    public ResponseEntity<LoginRequestDto> login(@RequestBody LoginRequestDto loginRequestDto) {
+//    public void login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse res) {
 //        userService.login(loginRequestDto, );
 //        return ResponseEntity.
 //    }
