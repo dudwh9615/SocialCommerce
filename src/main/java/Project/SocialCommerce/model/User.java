@@ -4,6 +4,8 @@ package Project.SocialCommerce.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -29,11 +31,14 @@ public class User {
     @Column(name="greetings", nullable = false)
     private String greetings;
 
-    public User(String email, String pwd, String name, String profile, String greetings) {
-        this.email = email;
-        this.pwd = pwd;
-        this.name = name;
-        this.profile = profile;
-        this.greetings = greetings;
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "follow_relationship",
+            joinColumns = @JoinColumn(name = "following_id"),
+            inverseJoinColumns = @JoinColumn(name = "follower_id")
+    )
+    private List<User> following;
+
+    @ManyToMany(mappedBy = "following")
+    private List<User> followers;
 }
