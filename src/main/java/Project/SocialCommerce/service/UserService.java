@@ -114,8 +114,7 @@ public class UserService {
         // 비밀번호의 경우 변경이 되었다면 쿠키의 토큰 만료하여 로그아웃처리
         if (modifyRequestDto.getPwd() != null) {
             if (!originalUser.getPwd().equals(passwordEncoder.encode(modifyRequestDto.getPwd()))) {
-                originalUser.setProfile(passwordEncoder.encode(modifyRequestDto.getPwd()));
-                SecurityContextHolder.clearContext();
+                originalUser.setPwd(passwordEncoder.encode(modifyRequestDto.getPwd()));
             }
         }
 

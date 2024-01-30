@@ -2,9 +2,11 @@ package Project.SocialCommerce.controller;
 
 import Project.SocialCommerce.dto.*;
 import Project.SocialCommerce.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -34,8 +36,16 @@ public class UserController {
     }
 
     @PutMapping("/users")
-    public ResponseEntity<String> modifyUserInfo(@RequestBody @Valid ModifyRequestDto modifyRequestDto, Principal principal) {
+    public ResponseEntity<String> modifyUserInfo(@RequestBody @Valid ModifyRequestDto modifyRequestDto, Principal principal, HttpServletResponse httpServletResponse) {
         userService.modifyUserInfo(modifyRequestDto, principal.getName());
+        if (modifyRequestDto.getPwd() != null){
+            try {
+                httpServletResponse.sendRedirect("/logout");
+            } catch (Exception e) {
+                e.toString();
+            }
+
+        }
         return ResponseEntity.ok("회원정보 수정 완료");
     }
 
