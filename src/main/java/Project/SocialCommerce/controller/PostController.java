@@ -1,14 +1,13 @@
 package Project.SocialCommerce.controller;
 
 import Project.SocialCommerce.dto.PostRequestDto;
-import Project.SocialCommerce.model.Post;
+import Project.SocialCommerce.dto.PostResponseDto;
 import Project.SocialCommerce.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,10 +22,10 @@ public class PostController {
         return ResponseEntity.ok("게시 완료");
     }
 
-//    @GetMapping
-//    public ResponseEntity<PostResponseDto> getPost(@RequestBody GetPostRequestDto getPostRequestDto) {
-//        return postService.getPost(getPostRequestDto);
-//    }
+    @GetMapping("/{postId}")
+    public ResponseEntity<PostResponseDto> getPost(@PathVariable Long postId) {
+        return ResponseEntity.ok(postService.getPost(postId));
+    }
 //
 //    @PutMapping
 //    public ResponseEntity<String> editPost(@RequestBody EditPostRequestDto editPostRequestDto, Principal principal) {
