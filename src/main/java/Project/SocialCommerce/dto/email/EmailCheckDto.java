@@ -1,4 +1,4 @@
-package Project.SocialCommerce.dto;
+package Project.SocialCommerce.dto.email;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;

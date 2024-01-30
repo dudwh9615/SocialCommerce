@@ -1,7 +1,7 @@
 package Project.SocialCommerce.controller;
 
-import Project.SocialCommerce.dto.EmailCheckDto;
-import Project.SocialCommerce.dto.EmailRequestDto;
+import Project.SocialCommerce.dto.email.EmailCheckDto;
+import Project.SocialCommerce.dto.email.EmailRequestDto;
 import Project.SocialCommerce.service.MailService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
