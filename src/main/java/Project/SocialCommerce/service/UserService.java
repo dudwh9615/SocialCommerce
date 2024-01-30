@@ -55,7 +55,7 @@ public class UserService {
         User loggedInUser = loggedInUserOpt.get();
         User targetUser;
 
-        if (targetUserOpt.isPresent()) {
+        if (targetUserOpt.isEmpty()) {
             throw new IllegalArgumentException("상대 계정이 존재하지 않습니다.");
         }
         targetUser = targetUserOpt.get();
@@ -74,13 +74,12 @@ public class UserService {
     public void unFollowing(String loginUserEmail, FollowRequestDto followRequestDto) {
         Optional<User> loggedInUserOpt = userRepository.findByEmail(loginUserEmail);
         Optional<User> targetUserOpt = userRepository.findByEmail(followRequestDto.getTargetUserEmail());
-        User loggedInUser;
+        User loggedInUser = loggedInUserOpt.get();
         User targetUser;
 
-        if (loggedInUserOpt.isEmpty() || targetUserOpt.isEmpty()) {
+        if (targetUserOpt.isEmpty()) {
             throw new IllegalStateException("탈퇴한 회원입니다.");
         }
-        loggedInUser = loggedInUserOpt.get();
         targetUser = targetUserOpt.get();
 
         // 팔로우 관계 확인
