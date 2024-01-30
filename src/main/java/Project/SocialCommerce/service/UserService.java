@@ -6,6 +6,7 @@ import Project.SocialCommerce.repository.UserRepository;
 import Project.SocialCommerce.util.JwtUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -49,12 +50,25 @@ public class UserService {
     }
 
     public void following(String loginUserEmail, FollowRequestDto followRequestDto) {
-        Optional<User> loggedInUser = userRepository.findByEmail(loginUserEmail);
-        Optional<User> targetUser = userRepository.findByEmail(followRequestDto.getTargetUserEmail());
-        loggedInUser.get().getFollowing().add(targetUser.get());
-        targetUser.get().getFollowers().add(loggedInUser.get());
-        userRepository.save(loggedInUser.get());
-        userRepository.save(targetUser.get());
+        Optional<User> loggedInUserOpt = userRepository.findByEmail(loginUserEmail);
+        Optional<User> targetUserOpt = userRepository.findByEmail(followRequestDto.getTargetUserEmail());
+        User loggedInUser = loggedInUserOpt.get();
+        User targetUser;
+
+        if (targetUserOpt.isPresent()) {
+            throw new IllegalArgumentException("상대 계정이 존재하지 않습니다.");
+        }
+        targetUser = targetUserOpt.get();
+
+        // 이미 팔로잉 중이라면
+        if (targetUser.getFollowers().contains(loggedInUser)) {
+            throw new IllegalArgumentException("이미 팔로우 중입니다.");
+        }
+
+        loggedInUser.getFollowing().add(targetUser);
+        targetUser.getFollowers().add(loggedInUser);
+        userRepository.save(loggedInUser);
+        userRepository.save(targetUser);
     }
 
     public void unFollowing(String loginUserEmail, FollowRequestDto followRequestDto) {
@@ -101,6 +115,7 @@ public class UserService {
         if (modifyRequestDto.getPwd() != null) {
             if (!originalUser.getPwd().equals(passwordEncoder.encode(modifyRequestDto.getPwd()))) {
                 originalUser.setProfile(passwordEncoder.encode(modifyRequestDto.getPwd()));
+                SecurityContextHolder.clearContext();
             }
         }
 

@@ -4,6 +4,7 @@ package Project.SocialCommerce.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -41,4 +42,14 @@ public class User {
 
     @ManyToMany(mappedBy = "following")
     private List<User> followers;
+
+    @OneToMany(mappedBy = "user")
+    private List<Post> posts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Interaction> interactions = new ArrayList<>();
+
 }

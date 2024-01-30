@@ -1,17 +1,14 @@
 package Project.SocialCommerce.controller;
 
 import Project.SocialCommerce.dto.*;
-import Project.SocialCommerce.model.User;
 import Project.SocialCommerce.service.UserService;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
+
 
 
 @RestController
@@ -24,9 +21,9 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/users/{email}")
-    public ResponseEntity<UserResponseDto> findByEmail(@PathVariable String email){
-        return ResponseEntity.ok(userService.findByEmail(email));
+    @GetMapping("/users")
+    public ResponseEntity<UserResponseDto> findByEmail(Principal principal){
+        return ResponseEntity.ok(userService.findByEmail(principal.getName()));
     }
 
     @PostMapping("/sign-up")

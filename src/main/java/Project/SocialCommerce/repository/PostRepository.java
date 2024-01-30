@@ -1,13 +1,12 @@
 package Project.SocialCommerce.repository;
 
-import Project.SocialCommerce.model.User;
+import Project.SocialCommerce.model.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByEmail(String email);
-
+public interface PostRepository extends JpaRepository<Post, Long> {
+    Optional<Post> findById(Long id);
 }
