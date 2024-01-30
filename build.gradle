@@ -31,8 +31,8 @@ dependencies {
 	// JPA 구현체인 hibernate
 	implementation 'org.hibernate:hibernate-core:6.1.7.Final'
 	// MySQL
-	implementation 'mysql:mysql-connector-java:8.0.33'
-	runtimeOnly 'com.mysql:mysql-connector-j'
+//	implementation 'mysql:mysql-connector-java:8.0.33'
+//	runtimeOnly 'com.mysql:mysql-connector-j'
 
 	// JWT
 	compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
@@ -45,6 +45,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	// redis
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	// postgresql
+	implementation group: 'org.postgresql', name: 'postgresql', version: '42.6.0' // 추가
+	runtimeOnly 'org.postgresql:postgresql' // 추가
 }
 
 tasks.named('test') {
