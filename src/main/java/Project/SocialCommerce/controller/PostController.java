@@ -1,5 +1,6 @@
 package Project.SocialCommerce.controller;
 
+import Project.SocialCommerce.dto.EditPostRequestDto;
 import Project.SocialCommerce.dto.PostRequestDto;
 import Project.SocialCommerce.dto.PostResponseDto;
 import Project.SocialCommerce.service.PostService;
@@ -26,11 +27,11 @@ public class PostController {
     public ResponseEntity<PostResponseDto> getPost(@PathVariable Long postId) {
         return ResponseEntity.ok(postService.getPost(postId));
     }
-//
-//    @PutMapping
-//    public ResponseEntity<String> editPost(@RequestBody EditPostRequestDto editPostRequestDto, Principal principal) {
-//        postService.editPost(editPostRequestDto, principal.getName());
-//        return ResponseEntity.ok("게시글 수정 완료");
-//    }
+
+    @PutMapping
+    public ResponseEntity<String> editPost(@RequestBody EditPostRequestDto editPostRequestDto, Principal principal) {
+        postService.editPost(editPostRequestDto, principal.getName());
+        return ResponseEntity.ok("게시글 수정 완료");
+    }
 
 }

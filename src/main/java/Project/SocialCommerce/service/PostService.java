@@ -1,5 +1,6 @@
 package Project.SocialCommerce.service;
 
+import Project.SocialCommerce.dto.EditPostRequestDto;
 import Project.SocialCommerce.dto.PostRequestDto;
 import Project.SocialCommerce.dto.PostResponseDto;
 import Project.SocialCommerce.model.Post;
@@ -36,6 +37,35 @@ public class PostService {
             throw new IllegalArgumentException("없는 게시물 입니다.");
         }
         return new PostResponseDto(post.get());
+    }
 
+    public void editPost(EditPostRequestDto editPostRequestDto, String email) {
+        Optional<Post> editPostOpt = postRepository.findById(editPostRequestDto.getPostId());
+        if (editPostOpt.isEmpty()){
+            throw new IllegalArgumentException("없는 게시물 입니다.");
+        }
+        Post editPost = editPostOpt.get();
+
+        if (!editPost.getUser().getEmail().equals(email)) {
+            throw new IllegalArgumentException("권한이 없는 사용자 입니다.");
+        }
+
+        editPost.setContent(editPostRequestDto.getContent());
+
+        postRepository.save(editPost);
+    }
+
+    public void delPost(EditPostRequestDto delPostRequestDto, String email) {
+        Optional<Post> delPostOPt = postRepository.findById(delPostRequestDto.getPostId());
+        if (delPostOPt.isEmpty()) {
+            throw new IllegalArgumentException("없는 게시물 입니다.");
+        }
+        Post delPost = delPostOPt.get();
+
+        if (!delPost.getUser().getEmail().equals(email)) {
+            throw new IllegalArgumentException("권한이 없는 사용자 입니다.");
+        }
+
+        postRepository.delete(delPost);
     }
 }
