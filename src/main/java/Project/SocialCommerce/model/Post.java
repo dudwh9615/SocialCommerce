@@ -25,7 +25,6 @@ public class Post {
 //    @Column(name="email", nullable = false)
 //    private String email;
 
-    @Lob()
     @Column(name="content", nullable = false)
     private String content;
 

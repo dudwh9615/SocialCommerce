@@ -2,25 +2,23 @@ package Project.SocialCommerce.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@Table(name = "interactions")
 @Entity
-@NoArgsConstructor
-public class Interaction {
+@Setter
+@Getter
+@Table(name = "activities")
+public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private User user;// 이 유저가
 
     @ManyToOne
     @JoinColumn(name = "post_id")
@@ -29,6 +27,10 @@ public class Interaction {
     @ManyToOne
     @JoinColumn(name = "comment_id")
     private Comment comment;
+
+    @ManyToOne
+    @JoinColumn(name = "interaction_id")
+    private Interaction interaction;
 
     @CreationTimestamp
     @Column(name = "created_at")

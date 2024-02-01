@@ -3,8 +3,11 @@ package Project.SocialCommerce.service;
 import Project.SocialCommerce.dto.EditPostRequestDto;
 import Project.SocialCommerce.dto.PostRequestDto;
 import Project.SocialCommerce.dto.PostResponseDto;
+import Project.SocialCommerce.model.Activity;
+import Project.SocialCommerce.model.Comment;
 import Project.SocialCommerce.model.Post;
 import Project.SocialCommerce.model.User;
+import Project.SocialCommerce.repository.ActivityRepository;
 import Project.SocialCommerce.repository.PostRepository;
 import Project.SocialCommerce.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +22,7 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final ActivityRepository activityRepository;
 
 
     public void addPost(PostRequestDto postRequestDto, String email) {
@@ -28,7 +32,16 @@ public class PostService {
         newPost.setContent(postRequestDto.getContent());
         newPost.setUser(user);
 
-        postRepository.save(newPost);
+        Post savedPost = postRepository.save(newPost);
+        addActivity(user, savedPost);
+    }
+
+    public void addActivity(User user, Post post) {
+        Activity activity = new Activity();
+        activity.setPost(post);
+        activity.setUser(user);
+
+        activityRepository.save(activity);
     }
 
     public PostResponseDto getPost(Long postId) {
