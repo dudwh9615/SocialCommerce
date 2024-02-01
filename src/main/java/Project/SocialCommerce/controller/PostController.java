@@ -1,8 +1,7 @@
 package Project.SocialCommerce.controller;
 
-import Project.SocialCommerce.dto.EditPostRequestDto;
-import Project.SocialCommerce.dto.PostRequestDto;
-import Project.SocialCommerce.dto.PostResponseDto;
+import Project.SocialCommerce.dto.*;
+import Project.SocialCommerce.service.InteractionService;
 import Project.SocialCommerce.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +15,7 @@ import java.security.Principal;
 public class PostController {
 
     private final PostService postService;
+    private final InteractionService interactionService;
 
     @PostMapping
     public ResponseEntity<String> posting(@RequestBody PostRequestDto postRequestDto, Principal principal) {
@@ -32,6 +32,12 @@ public class PostController {
     public ResponseEntity<String> editPost(@RequestBody EditPostRequestDto editPostRequestDto, Principal principal) {
         postService.editPost(editPostRequestDto, principal.getName());
         return ResponseEntity.ok("게시글 수정 완료");
+    }
+
+    @PostMapping("/interactions")
+    public ResponseEntity<String> likesPost(@RequestBody LikePostDto postDto, Principal principal) {
+        interactionService.likesPost(postDto, principal.getName());
+        return ResponseEntity.ok("게시글 좋아요");
     }
 
 }
