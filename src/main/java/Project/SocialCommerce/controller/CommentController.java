@@ -27,9 +27,9 @@ public class CommentController {
 //        return ResponseEntity.ok(postService.getPost(postId));
 //    }
 
-    @PutMapping
-    public ResponseEntity<String> editPost(@RequestBody EditCommentRequestDto requestDto, Principal principal) {
-        commentService.editComment(requestDto, principal.getName());
-        return ResponseEntity.ok("게시글 수정 완료");
-    }
+//    @PutMapping
+//    public ResponseEntity<String> editPost(@RequestBody EditCommentRequestDto requestDto, Principal principal) {
+//        commentService.editComment(requestDto, principal.getName());
+//        return ResponseEntity.ok("게시글 수정 완료");
+//    }
 }
