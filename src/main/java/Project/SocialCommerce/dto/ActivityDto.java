@@ -46,7 +46,7 @@ public class ActivityDto {
             activityDto.setCreatedAt(activity.getComment().getCreatedAt().toString());
 
             // 좋아요를 눌렀을 때
-        } else {
+        } else if (activity.getInteraction() != null) {
             activityDto.setDoing(ContentTypeEnum.LIKES);
             if (activity.getInteraction().getPost() != null) {
                 activityDto.setTargetUserEmail(activity.getInteraction().getPost().getUser().getEmail());
@@ -59,6 +59,12 @@ public class ActivityDto {
                 activityDto.setTargetContentType(ContentTypeEnum.COMMENT);
                 activityDto.setCreatedAt(activity.getInteraction().getCreatedAt().toString());
             }
+
+            // 팔로우를 했을 때
+        } else {
+            activityDto.setDoing(ContentTypeEnum.FOLLOW);
+            activityDto.setDoUserEmail(activity.getUser().getEmail());
+            activityDto.setTargetUserEmail(activity.getFollowUser().getEmail());
         }
         return activityDto;
     }

@@ -1,10 +1,14 @@
 package Project.SocialCommerce.service;
 
 import Project.SocialCommerce.dto.*;
+import Project.SocialCommerce.model.Activity;
+import Project.SocialCommerce.model.Interaction;
 import Project.SocialCommerce.model.User;
+import Project.SocialCommerce.repository.ActivityRepository;
 import Project.SocialCommerce.repository.UserRepository;
 import Project.SocialCommerce.util.JwtUtil;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,18 +18,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final ActivityRepository activityRepository;
 
-    @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtUtil = jwtUtil;
-    }
+
 
     public void register(RegisterRequestDto requestDto) {
         String email = requestDto.getEmail();
@@ -67,9 +68,18 @@ public class UserService {
 
         loggedInUser.getFollowing().add(targetUser);
         targetUser.getFollowers().add(loggedInUser);
-        userRepository.save(loggedInUser);
-        userRepository.save(targetUser);
+        User user = userRepository.save(loggedInUser);
+        User target = userRepository.save(targetUser);
+        addActivity(user, target);
     }
+    public void addActivity(User user, User target) {
+        Activity activity = new Activity();
+        activity.setFollowUser(target);
+        activity.setUser(user);
+
+        activityRepository.save(activity);
+    }
+
 
     public void unFollowing(String loginUserEmail, FollowRequestDto followRequestDto) {
         Optional<User> loggedInUserOpt = userRepository.findByEmail(loginUserEmail);

@@ -32,6 +32,10 @@ public class Activity {
     @JoinColumn(name = "interaction_id")
     private Interaction interaction;
 
+    @ManyToOne
+    @JoinColumn(name = "followUser_id")
+    private User followUser;
+
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;

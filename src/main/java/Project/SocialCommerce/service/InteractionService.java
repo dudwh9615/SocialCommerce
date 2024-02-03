@@ -2,14 +2,8 @@ package Project.SocialCommerce.service;
 
 import Project.SocialCommerce.dto.LikeCommentDto;
 import Project.SocialCommerce.dto.LikePostDto;
-import Project.SocialCommerce.model.Comment;
-import Project.SocialCommerce.model.Interaction;
-import Project.SocialCommerce.model.Post;
-import Project.SocialCommerce.model.User;
-import Project.SocialCommerce.repository.CommentRepository;
-import Project.SocialCommerce.repository.InteractionRepository;
-import Project.SocialCommerce.repository.PostRepository;
-import Project.SocialCommerce.repository.UserRepository;
+import Project.SocialCommerce.model.*;
+import Project.SocialCommerce.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +17,7 @@ public class InteractionService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final ActivityRepository activityRepository;
 
     public void likesComment(LikeCommentDto dto, String email) {
         Interaction likes = new Interaction();
@@ -40,7 +35,8 @@ public class InteractionService {
         likes.setComment(comment);
         likes.setUser(user);
 
-        interactionRepository.save(likes);
+        Interaction saved = interactionRepository.save(likes);
+        addActivity(user, saved);
     }
 
     public void likesPost(LikePostDto dto, String email) {
@@ -54,6 +50,15 @@ public class InteractionService {
         likes.setPost(post);
         likes.setUser(user);
 
-        interactionRepository.save(likes);
+        Interaction saved = interactionRepository.save(likes);
+        addActivity(user, saved);
+    }
+
+    public void addActivity(User user, Interaction interaction) {
+        Activity activity = new Activity();
+        activity.setInteraction(interaction);
+        activity.setUser(user);
+
+        activityRepository.save(activity);
     }
 }

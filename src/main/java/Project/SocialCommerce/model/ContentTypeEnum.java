@@ -2,5 +2,5 @@ package Project.SocialCommerce.model;
 
 
 public enum ContentTypeEnum {
-    POST, COMMENT, LIKES
+    POST, COMMENT, LIKES, FOLLOW
 }
